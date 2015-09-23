@@ -19,4 +19,6 @@ Highly recommend using [multirust](https://github.com/brson/multirust) for insta
     $ ./target/release/shouji get key/blah
 
 #### Features
-Currently only the *get* module has been created.
+Supports:
+  * get
+  * put
