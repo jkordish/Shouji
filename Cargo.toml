@@ -4,7 +4,7 @@ version = "0.0.1"
 authors = ["Joseph Kordish <joe@unicornclouds.com>"]
 
 [dependencies]
-clippy = "*"
+#clippy = "*"
 docopt = "*"
 rustc-serialize = "*"
 curl = "*"
