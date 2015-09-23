@@ -1,5 +1,5 @@
 #![feature(custom_derive, plugin, custom_attribute)]
-#![plugin(serde_macros, clippy)]
+#![plugin(serde_macros)]
 extern crate serde;
 extern crate serde_json;
 extern crate rustc_serialize;
