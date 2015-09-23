@@ -71,6 +71,13 @@ fn main() {
             &args.arg_data.unwrap(),
             args.flag_verbose,
         );
+    } else if args.cmd_list {
+       mods::list::list(
+            &args.flag_server,
+            args.flag_port,
+            &args.arg_key.unwrap(),
+            args.flag_verbose,
+        );
     }
     else {
         println!("Not sure what to do: {:?}", args);
