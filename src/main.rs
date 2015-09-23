@@ -13,7 +13,7 @@ shouji -- interface with consul
 Usage:
     shouji [options] list [<key>]
     shouji [options] get [<key>]
-    shouji [options] put [<key>]
+    shouji [options] put [<key>] [<data>]
     shouji [options] export [<file>]
     shouji [options] import [<file>]
     shouji (-h)
@@ -35,16 +35,17 @@ Action:
 
 #[derive(RustcDecodable, Debug)]
 struct Args {
-    flag_server: String,
-    flag_port:   u16,
-    arg_key:     Option<String>,
-    arg_file:    Option<String>,
-    cmd_get:     bool,
-    cmd_put:     bool,
-    cmd_list:    bool,
-    cmd_export:  bool,
-    cmd_import:  bool,
-    flag_help:   bool,
+    flag_server:  String,
+    flag_port:    u16,
+    arg_key:      Option<String>,
+    arg_data:     Option<String>,
+    arg_file:     Option<String>,
+    cmd_get:      bool,
+    cmd_put:      bool,
+    cmd_list:     bool,
+    cmd_export:   bool,
+    cmd_import:   bool,
+    flag_help:    bool,
     flag_verbose: bool,
 }
 
@@ -54,8 +55,7 @@ fn main() {
                             .and_then(|d| d.decode())
                             .unwrap_or_else(|e| e.exit());
 
-    // we only support get right now
-    // pass values to the get module
+    // we only support get and put right now
     if args.cmd_get {
        mods::get::get(
             &args.flag_server,
@@ -63,7 +63,16 @@ fn main() {
             &args.arg_key.unwrap(),
             args.flag_verbose,
         );
-    } else {
+    } else if args.cmd_put {
+       mods::put::put(
+            &args.flag_server,
+            args.flag_port,
+            &args.arg_key.unwrap(),
+            &args.arg_data.unwrap(),
+            args.flag_verbose,
+        );
+    }
+    else {
         println!("Not sure what to do: {:?}", args);
     }
 }

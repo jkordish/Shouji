@@ -1,4 +1,5 @@
 pub mod get;
+pub mod put;
 
 // struct that mirrors the json values from consul
 // using snake case as #[serde(alias="")] wouldn't work for me
