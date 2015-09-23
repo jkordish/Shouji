@@ -2,14 +2,14 @@ extern crate curl;
 extern crate rustc_serialize;
 
 use ::rustc_serialize::base64::FromBase64;
-use std;
+use std::str::from_utf8;
 use self::curl::http;
 use mods::ValueData;
 
 pub fn get(server: &str, port: u16, key: &str, verbose: bool ) {
 
     // build url from input values
-    let url = format!("http://{}:{:?}/v1/kv/{}", server, port, key);
+    let url = format!("http://{}:{}/v1/kv/{}", server, port, key);
 
     // verbose: print out the connection url string
     if verbose {
@@ -30,8 +30,8 @@ pub fn get(server: &str, port: u16, key: &str, verbose: bool ) {
 
     // verbose: print out the response code, headers, and body
     if verbose {
-        println!("code={}; headers={:?}; body={:?}",
-            resp.get_code(), resp.get_headers(), std::str::from_utf8(resp.get_body()).unwrap());
+        println!("code={}; headers={:?}; body={}",
+            resp.get_code(), resp.get_headers(), from_utf8(resp.get_body()).unwrap());
     }
 
     // create a vector containg the body
@@ -41,7 +41,7 @@ pub fn get(server: &str, port: u16, key: &str, verbose: bool ) {
     for x in body {
         // if verbose: print out the data from the json vec
         if verbose {
-            println!("json: {}", std::str::from_utf8(x).unwrap());
+            println!("json: {}", from_utf8(x).unwrap());
         }
         // decode json to the ValueData struct
         let deserialized: Vec<ValueData> = ::serde_json::from_slice(x).unwrap();
