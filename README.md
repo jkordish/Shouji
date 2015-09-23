@@ -13,7 +13,7 @@ Highly recommend using [multirust](https://github.com/brson/multirust) for insta
 
 ### Install & Running
 
-    $ git clone https://github.com/jkordish/Shouji.git
+    $ git clone https://github.com/jkordish/shouji.git
     $ cd Shouji
     $ cargo build --release
     $ ./target/release/shouji get key/blah
