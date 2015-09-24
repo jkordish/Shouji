@@ -23,3 +23,9 @@ Supports:
   * get
   * put
   * list
+
+#### TODO
+  * List function should always return the Value field decoded from base64
+  * Implement:
+    * Export
+    * Import

@@ -3,7 +3,8 @@ extern crate rustc_serialize;
 
 use self::curl::http;
 use std::str::from_utf8;
-use ::serde_json::Value;
+// use ::rustc_serialize::base64::FromBase64;
+use mods::*;
 
 pub fn list(server: &str, port: u16, key: &str, verbose: bool ) {
 
@@ -33,9 +34,12 @@ pub fn list(server: &str, port: u16, key: &str, verbose: bool ) {
             resp.get_code(), resp.get_headers(), from_utf8(resp.get_body()).unwrap());
     }
 
+    // make body from the response body from the server
     let body = from_utf8(resp.get_body()).unwrap();
-    let mut json: Value = ::serde_json::from_str(body).unwrap();
-    let json = ::serde_json::to_string_pretty(&mut json);
 
-    println!("{}", json.unwrap());
+    // map json body to our backend Struct
+    let json: Vec<ValueData> = ::serde_json::from_str(body).unwrap();
+
+    // pass json to our decode_json function and print result
+    println!("{}", decode_json(json).unwrap());
 }
