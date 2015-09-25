@@ -26,7 +26,7 @@ impl fmt::Display for ValueData {
             self.LockIndex,
             self.Key,
             self.Flags,
-            self.value,
+            self.Value,
         )
     }
 }
