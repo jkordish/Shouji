@@ -3,7 +3,7 @@ pub mod put;
 pub mod list;
 
 use std::fmt;
-// use ::rustc_serialize::base64::FromBase64;
+use ::rustc_serialize::base64::FromBase64;
 
 // struct that mirrors the json values from consul
 // using snake case as #[serde(alias="")] wouldn't work for me
@@ -31,9 +31,11 @@ impl fmt::Display for ValueData {
     }
 }
 
-pub fn decode_json (json: Vec<ValueData>) -> Result<String, ::serde_json::error::Error> {
-    // let value = String::from_utf8(value.to_owned().from_base64().unwrap()).unwrap();
-    // let mut json_new = String::new();
-    // json_new = "poop".to_owned()
-    ::serde_json::to_string_pretty(&json)
+// this seems to decode and the base64 values of ValueData::Value but doesn't keep the rest :()
+pub fn decode_json (mut json: Vec<ValueData>) -> Result<String, ::serde_json::error::Error> {
+    let decode_value: Vec<_> = json.iter_mut()
+        .map(|value | {
+            (String::from_utf8(value.Value[..].from_base64().unwrap()).unwrap())
+        } ).collect();
+    ::serde_json::to_string_pretty(&decode_value)
 }
