@@ -20,14 +20,13 @@ pub struct ValueData {
 
 impl fmt::Display for ValueData {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let value = String::from_utf8(self.Value.to_owned().from_base64().unwrap()).unwrap();
         write!(f, "{} {} {} {} {} {}",
             self.CreateIndex,
             self.ModifyIndex,
             self.LockIndex,
             self.Key,
             self.Flags,
-            value,
+            self.value,
         )
     }
 }
