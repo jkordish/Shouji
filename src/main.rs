@@ -51,12 +51,14 @@ struct Args {
 
 fn main() {
 
+    // Decode docopts
     let args: Args = Docopt::new(USAGE)
                             .and_then(|d| d.decode())
                             .unwrap_or_else(|e| e.exit());
 
-    // we only support get and put right now
     if args.cmd_get {
+        // Error conditions
+        if args.arg_key == None { panic!("Please supply a key to get."); }
        mods::get::get(
             &args.flag_server,
             args.flag_port,
@@ -64,6 +66,9 @@ fn main() {
             args.flag_verbose,
         );
     } else if args.cmd_put {
+        // Error conditions
+        if args.arg_key == None { panic!("Please supply a key to get."); }
+        if args.arg_data == None { panic!("Please supply data to put."); }
        mods::put::put(
             &args.flag_server,
             args.flag_port,
@@ -72,6 +77,8 @@ fn main() {
             args.flag_verbose,
         );
     } else if args.cmd_list {
+        // Error conditions
+        if args.arg_key == None { panic!("Please supply a key to get."); }
        mods::list::list(
             &args.flag_server,
             args.flag_port,

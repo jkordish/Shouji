@@ -1,12 +1,14 @@
 pub mod get;
 pub mod put;
 pub mod list;
+
 use std::fmt;
+use ::rustc_serialize::base64::FromBase64;
 
 // struct that mirrors the json values from consul
 // using snake case as #[serde(alias="")] wouldn't work for me
 #[allow(non_snake_case)]
-#[derive(RustcDecodable, Serialize, Deserialize, Debug)]
+#[derive(RustcDecodable, Serialize, Deserialize, Debug, Clone)]
 pub struct ValueData {
   pub CreateIndex: i32,
   pub ModifyIndex: i32,
@@ -17,18 +19,22 @@ pub struct ValueData {
 }
 
 impl fmt::Display for ValueData {
-    // This trait requires `fmt` with this exact signature.
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        // Write strictly the first element into the supplied output
-        // stream: `f`. Returns `fmt::Result` which indicates whether the
-        // operation succeeded or failed. Note that `write!` uses syntax which
-        // is very similar to `println!`.
+        let value = String::from_utf8(self.Value.to_owned().from_base64().unwrap()).unwrap();
         write!(f, "{} {} {} {} {} {}",
             self.CreateIndex,
             self.ModifyIndex,
             self.LockIndex,
             self.Key,
             self.Flags,
-            self.Value)
+            value,
+        )
     }
+}
+
+pub fn decode_json (json: Vec<ValueData>) -> Result<String, ::serde_json::error::Error> {
+    // let value = String::from_utf8(value.to_owned().from_base64().unwrap()).unwrap();
+    // let mut json_new = String::new();
+    // json_new = "poop".to_owned()
+    ::serde_json::to_string_pretty(&json)
 }
