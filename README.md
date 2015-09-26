@@ -15,6 +15,7 @@ Highly recommend using [multirust](https://github.com/brson/multirust) for insta
 Supports:
   * get
   * put
+  * rm
   * list
 
 ### Install
@@ -29,7 +30,7 @@ Supports:
 
 **binary:**
 
-    $ wget -O /usr/local/bin/shouji  https://github.com/jkordish/shouji/releases/download/v0.0.2/shouji-osx 
+    $ wget -O /usr/local/bin/shouji  https://github.com/jkordish/shouji/releases/download/v0.0.2/shouji-osx
 
 #### Using
 
@@ -56,9 +57,11 @@ Sample uses:
         "Value": "Jennifer"
     }
 
+  *remove:*
+
+    $ shouji rm random/person
 
 #### TODO
-  * ~~List function should always return the Value field decoded from base64~~ v0.0.2
   * Implement:
     * Export
     * Import
