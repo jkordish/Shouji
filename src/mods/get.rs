@@ -38,13 +38,13 @@ pub fn get(server: &str, port: u16, key: &str, verbose: bool ) {
     let body = vec![resp.get_body()];
 
     // not sure why but doing inter over json works
-    for x in body {
+    for row in body {
         // if verbose: print out the data from the json vec
         if verbose {
-            println!("json: {}", from_utf8(x).unwrap());
+            println!("json: {}", from_utf8(row).unwrap());
         }
         // decode json to the ValueData struct
-        let deserialized: Vec<ValueData> = ::serde_json::from_slice(x).unwrap();
+        let deserialized: Vec<ValueData> = ::serde_json::from_slice(row).unwrap();
         // convert ValueData.Value from base64 utf8
         let value = deserialized[0].Value[..].to_owned().from_base64().unwrap();
         // Print the string of value
