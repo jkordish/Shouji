@@ -19,7 +19,7 @@ Supports:
 
 ### Install
 
-from source:
+**source:**
 
     $ git clone https://github.com/jkordish/shouji.git
     $ cd Shouji
@@ -27,7 +27,7 @@ from source:
     $ cp target/release/shouji /usr/local/bin/
     $ ./target/release/shouji get key/blah
 
-binary:
+**binary:**
 
     $ wget -O /usr/local/bin/shouji  https://github.com/jkordish/shouji/releases/download/v0.0.2/shouji-osx 
 
@@ -35,16 +35,16 @@ binary:
 
 Sample uses:
 
-  put:
+  *put:*
 
     $ shouji put random/person Jennifer
 
-  get:
+  *get:*
 
     $ shouji get random/person
     Jennifer
 
-  list:
+  *list:*
 
     $ shouji list random
     {
@@ -58,7 +58,7 @@ Sample uses:
 
 
 #### TODO
-  * ~~List function should always return the Value field decoded from base64~~
+  * ~~List function should always return the Value field decoded from base64~~ v0.0.2
   * Implement:
     * Export
     * Import
