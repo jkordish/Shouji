@@ -34,13 +34,12 @@ binary:
 #### Using
 
 Sample uses:
-  * put
 
+  put:
 
     $ shouji put random/person Jennifer
 
-  * get
-
+  get:
 
     $ shouji get random/person
     Jennifer
