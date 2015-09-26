@@ -14,6 +14,7 @@ Usage:
     shouji [options] list [<key>]
     shouji [options] get [<key>]
     shouji [options] put [<key>] [<data>]
+    shouji [options] rm [<key>]
     shouji [options] export [<file>]
     shouji [options] import [<file>]
     shouji (-h)
@@ -42,6 +43,7 @@ struct Args {
     arg_file:     Option<String>,
     cmd_get:      bool,
     cmd_put:      bool,
+    cmd_rm:       bool,
     cmd_list:     bool,
     cmd_export:   bool,
     cmd_import:   bool,
@@ -74,6 +76,15 @@ fn main() {
             args.flag_port,
             &args.arg_key.unwrap(),
             &args.arg_data.unwrap(),
+            args.flag_verbose,
+        );
+    } else if args.cmd_rm {
+        // Error conditions
+        if args.arg_key == None { panic!("Please supply a key to get."); }
+       mods::rm::rm(
+            &args.flag_server,
+            args.flag_port,
+            &args.arg_key.unwrap(),
             args.flag_verbose,
         );
     } else if args.cmd_list {
