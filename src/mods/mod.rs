@@ -31,11 +31,29 @@ impl fmt::Display for ValueData {
     }
 }
 
-// this seems to decode and the base64 values of ValueData::Value but doesn't keep the rest :()
-pub fn decode_json (mut json: Vec<ValueData>) -> Result<String, ::serde_json::error::Error> {
-    let decode_value: Vec<_> = json.iter_mut()
-        .map(|value | {
-            (String::from_utf8(value.Value[..].from_base64().unwrap()).unwrap())
-        } ).collect();
+// this seems to decode and the base64 values of ValueData::Value but doesn't keep the rest :(
+// not sure how to keep the same structure but just replace the value of Value
+pub fn decode_json (json: Vec<ValueData>) -> Result<String, ::serde_json::error::Error> {
+    let decode_value = json.iter()
+        .map(|row| {
+            match row.clone() {
+                 ValueData {
+                    CreateIndex: createindex,
+                    ModifyIndex: modifyindex,
+                    LockIndex: lockindex,
+                    Key: key,
+                    Flags: flags,
+                    Value: value,
+                } => ValueData {
+                        CreateIndex: createindex,
+                        ModifyIndex: modifyindex,
+                        LockIndex: lockindex,
+                        Key: key,
+                        Flags: flags,
+                        Value: String::from_utf8(value.from_base64().unwrap()).unwrap(),
+                    },
+            }
+        })
+            .collect::<Vec<_>>();
     ::serde_json::to_string_pretty(&decode_value)
 }
