@@ -57,11 +57,30 @@ Sample uses:
         "Value": "Jennifer"
     }
 
+    *export:*
+
+      $ shouji export random file
+      [
+        {
+          "Key": "random/person",
+          "Flags": 0,
+          "Value": "Jennifer"
+        }
+      ]
+
+      *import:*
+
+        $ <edit file to replace value to Joe>
+        $ shouji import file
+        $ shouji get random/person
+        Joe
+
   *remove:*
 
     $ shouji rm random/person
 
 #### TODO
   * Implement:
-    * Export
-    * Import
+    * ~~Export~~
+    * ~~Import~~
+    * Can't export off of the root tree :(
