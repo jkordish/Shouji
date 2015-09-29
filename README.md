@@ -17,6 +17,8 @@ Supports:
   * put
   * rm
   * list
+  * export
+  * import
 
 ### Install
 
