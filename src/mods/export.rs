@@ -3,9 +3,13 @@ extern crate serde_json;
 
 use self::curl::http;
 use std::str::from_utf8;
+use std::io::prelude::*;
+use std::fs::File;
 use mods::*;
 
-pub fn list(server: &str, port: &str, key: &str, verbose: bool) {
+pub fn export(server: &str, port: &str, key: &str, file: &str, verbose: bool) {
+
+    let mut file = File::create(file).unwrap();
 
     // build url from input values
     // format the url depending on if a key is set
@@ -44,6 +48,7 @@ pub fn list(server: &str, port: &str, key: &str, verbose: bool) {
     // map json body to our backend Struct
     let json: Vec<ValueData> = serde_json::from_str(&body[..]).unwrap();
 
-    // pass json to our decode_json function and print result
-    println!("{}", decode_json(&json).unwrap());
+    let output = decode_json(&json).unwrap();
+
+    file.write_all(output.as_bytes()).unwrap()
 }

@@ -3,7 +3,7 @@ extern crate rustc_serialize;
 
 use self::curl::http;
 
-pub fn rm(server: &str, port: u16, key: &str, verbose: bool ) {
+pub fn rm(server: &str, port: &str, key: &str, verbose: bool ) {
 
     // build url from input values
     let url = format!("http://{}:{}/v1/kv/{}", server, port, key);

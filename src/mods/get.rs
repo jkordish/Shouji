@@ -6,7 +6,7 @@ use std::str::from_utf8;
 use self::curl::http;
 use mods::ValueData;
 
-pub fn get(server: &str, port: u16, key: &str, verbose: bool ) {
+pub fn get(server: &str, port: &str, key: &str, verbose: bool ) {
 
     // build url from input values
     let url = format!("http://{}:{}/v1/kv/{}", server, port, key);
@@ -48,7 +48,7 @@ pub fn get(server: &str, port: u16, key: &str, verbose: bool ) {
         // convert ValueData.Value from base64 utf8
         let value = deserialized[0].Value[..].to_owned().from_base64().unwrap();
         // Print the string of value
-        println!("{}", String::from_utf8(value).unwrap());
+        println!("{}", String::from_utf8(value).unwrap())
     };
 
 }

@@ -1,13 +1,14 @@
-#![feature(custom_derive, plugin, custom_attribute)]
-#![plugin(serde_macros)]
+#![feature(custom_derive, plugin, custom_attribute, type_macros)]
+#![plugin(serde_macros, docopt_macros)]
 extern crate serde;
 extern crate serde_json;
 extern crate rustc_serialize;
 extern crate docopt;
+
 use docopt::Docopt;
 mod mods;
 
-static USAGE: &'static str = "
+docopt!(Args derive, "
 shouji -- interface with consul
 
 Usage:
@@ -15,7 +16,7 @@ Usage:
     shouji [options] get [<key>]
     shouji [options] put [<key>] [<data>]
     shouji [options] rm [<key>]
-    shouji [options] export [<file>]
+    shouji [options] export [<key>] <file>
     shouji [options] import [<file>]
     shouji (-h)
 
@@ -32,72 +33,73 @@ Action:
     export  export to json
     import  import from json
 
-";
-
-#[derive(RustcDecodable, Debug)]
-struct Args {
-    flag_server:  String,
-    flag_port:    u16,
-    arg_key:      Option<String>,
-    arg_data:     Option<String>,
-    arg_file:     Option<String>,
-    cmd_get:      bool,
-    cmd_put:      bool,
-    cmd_rm:       bool,
-    cmd_list:     bool,
-    cmd_export:   bool,
-    cmd_import:   bool,
-    flag_help:    bool,
-    flag_verbose: bool,
-}
+");
 
 fn main() {
 
     // Decode docopts
-    let args: Args = Docopt::new(USAGE)
-                            .and_then(|d| d.decode())
-                            .unwrap_or_else(|e| e.exit());
+    let args: Args = Args::docopt()
+                    .decode()
+                    .unwrap_or_else(|e| e.exit());
 
     if args.cmd_get {
         // Error conditions
-        if args.arg_key == None { panic!("Please supply a key to get."); }
-       mods::get::get(
+        if &args.arg_key == "" { panic!("Please supply a key to get."); }
+        mods::get::get(
             &args.flag_server,
-            args.flag_port,
-            &args.arg_key.unwrap(),
+            &args.flag_port,
+            &args.arg_key,
             args.flag_verbose,
         );
     } else if args.cmd_put {
         // Error conditions
-        if args.arg_key == None { panic!("Please supply a key to get."); }
-        if args.arg_data == None { panic!("Please supply data to put."); }
-       mods::put::put(
+        if &args.arg_key == "" { panic!("Please supply a key to get."); }
+        if &args.arg_data == "" { panic!("Please supply data to put."); }
+        mods::put::put(
             &args.flag_server,
-            args.flag_port,
-            &args.arg_key.unwrap(),
-            &args.arg_data.unwrap(),
+            &args.flag_port,
+            &args.arg_key,
+            &args.arg_data,
             args.flag_verbose,
         );
     } else if args.cmd_rm {
         // Error conditions
-        if args.arg_key == None { panic!("Please supply a key to get."); }
-       mods::rm::rm(
+        if &args.arg_key == "" { panic!("Please supply a key to rm."); }
+        mods::rm::rm(
             &args.flag_server,
-            args.flag_port,
-            &args.arg_key.unwrap(),
+            &args.flag_port,
+            &args.arg_key,
             args.flag_verbose,
         );
     } else if args.cmd_list {
         // Error conditions
-        if args.arg_key == None { panic!("Please supply a key to get."); }
-       mods::list::list(
+        // if args.arg_key == None { let Some = String::new(); };
+        mods::list::list(
             &args.flag_server,
-            args.flag_port,
-            &args.arg_key.unwrap(),
+            &args.flag_port,
+            &args.arg_key,
             args.flag_verbose,
         );
-    }
-    else {
-        println!("Not sure what to do: {:?}", args);
+    } else if args.cmd_export {
+        // Error conditions
+        if &args.arg_file == "" { panic!("Please supply a file to export to."); }
+        mods::export::export(
+            &args.flag_server,
+            &args.flag_port,
+            &args.arg_key,
+            &args.arg_file,
+            args.flag_verbose,
+        );
+    } else if args.cmd_import {
+        // Error conditions
+        if &args.arg_file == "" { panic!("Please supply a file to import."); }
+        mods::import::import(
+            &args.flag_server,
+            &args.flag_port,
+            &args.arg_file,
+            args.flag_verbose,
+        );
+    } else {
+        // println!("Not sure what to do: {:?}", args);
     }
 }
