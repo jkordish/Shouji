@@ -7,7 +7,7 @@ rust interface for consul
 **note: built on rust nightly**
 
     $ rustc --version
-    $ rustc 1.5.0-nightly (78ce46ffd 2015-09-26)
+    $ rustc 1.5.0-nightly (6108e8c3e 2015-09-28)
 
 Highly recommend using [multirust](https://github.com/brson/multirust) for installing and managing rust installations.
 
@@ -15,7 +15,10 @@ Highly recommend using [multirust](https://github.com/brson/multirust) for insta
 Supports:
   * get
   * put
+  * rm
   * list
+  * export
+  * import
 
 ### Install
 
@@ -29,7 +32,7 @@ Supports:
 
 **binary:**
 
-    $ wget -O /usr/local/bin/shouji  https://github.com/jkordish/shouji/releases/download/v0.0.2/shouji-osx 
+    $ wget -O /usr/local/bin/shouji  https://github.com/jkordish/shouji/releases/download/v0.0.2/shouji-osx
 
 #### Using
 
@@ -56,9 +59,30 @@ Sample uses:
         "Value": "Jennifer"
     }
 
+    *export:*
+
+      $ shouji export random file
+      [
+        {
+          "Key": "random/person",
+          "Flags": 0,
+          "Value": "Jennifer"
+        }
+      ]
+
+      *import:*
+
+        $ <edit file to replace value to Joe>
+        $ shouji import file
+        $ shouji get random/person
+        Joe
+
+  *remove:*
+
+    $ shouji rm random/person
 
 #### TODO
-  * ~~List function should always return the Value field decoded from base64~~ v0.0.2
   * Implement:
-    * Export
-    * Import
+    * ~~Export~~
+    * ~~Import~~
+    * Can't export off of the root tree :(

@@ -5,6 +5,7 @@ authors = ["Joseph Kordish <joe@unicornclouds.com>"]
 
 [dependencies]
 docopt = "*"
+docopt_macros = "*"
 rustc-serialize = "*"
 curl = "*"
 serde = "*"

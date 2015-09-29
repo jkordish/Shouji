@@ -1,6 +1,11 @@
 pub mod get;
 pub mod put;
+pub mod rm;
 pub mod list;
+pub mod export;
+pub mod import;
+
+extern crate serde_json;
 
 use std::fmt;
 use ::rustc_serialize::base64::FromBase64;
@@ -8,14 +13,22 @@ use ::rustc_serialize::base64::FromBase64;
 // struct that mirrors the json values from consul
 // using snake case as #[serde(alias="")] wouldn't work for me
 #[allow(non_snake_case)]
-#[derive(RustcDecodable, Serialize, Deserialize, Debug, Clone)]
+#[derive(RustcDecodable, Serialize, Deserialize, PartialEq, Debug, Clone)]
 pub struct ValueData {
-  pub CreateIndex: i32,
-  pub ModifyIndex: i32,
-  pub LockIndex: i32,
-  pub Key: String,
-  pub Flags: i32,
-  pub Value: String,
+  CreateIndex: i32,
+  ModifyIndex: i32,
+  LockIndex: i32,
+  Key: String,
+  Flags: i32,
+  Value: String,
+}
+
+#[allow(non_snake_case)]
+#[derive(RustcDecodable, Serialize, Deserialize, PartialEq, Debug, Clone)]
+pub struct ValueDataOut {
+  Key: String,
+  Flags: i32,
+  Value: String,
 }
 
 impl fmt::Display for ValueData {
@@ -31,29 +44,23 @@ impl fmt::Display for ValueData {
     }
 }
 
-// this seems to decode and the base64 values of ValueData::Value but doesn't keep the rest :(
-// not sure how to keep the same structure but just replace the value of Value
-pub fn decode_json (json: Vec<ValueData>) -> Result<String, ::serde_json::error::Error> {
+// take in the json as Vec<ValueData> grab the three fields we want & decode value from base 64
+// then reencode to a new struct of Vec<ValueDataOut> so we can remove those three fields
+pub fn decode_json<'a>(json: &'a Vec<ValueData>) -> Result<String, serde_json::error::Error> {
     let decode_value = json.iter()
         .map(|row| {
             match row.clone() {
                  ValueData {
-                    CreateIndex: createindex,
-                    ModifyIndex: modifyindex,
-                    LockIndex: lockindex,
                     Key: key,
                     Flags: flags,
                     Value: value,
-                } => ValueData {
-                        CreateIndex: createindex,
-                        ModifyIndex: modifyindex,
-                        LockIndex: lockindex,
+                    ..
+                } => ValueDataOut {
                         Key: key,
                         Flags: flags,
                         Value: String::from_utf8(value.from_base64().unwrap()).unwrap(),
                     },
             }
-        })
-            .collect::<Vec<_>>();
-    ::serde_json::to_string_pretty(&decode_value)
+        }).collect::<Vec<_>>();
+    serde_json::to_string_pretty(&decode_value)
 }
