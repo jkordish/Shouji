@@ -46,7 +46,7 @@ impl fmt::Display for ValueData {
 
 // take in the json as Vec<ValueData> grab the three fields we want & decode value from base 64
 // then reencode to a new struct of Vec<ValueDataOut> so we can remove those three fields
-pub fn decode_json<'a>(json: &'a Vec<ValueData>) -> Result<String, serde_json::error::Error> {
+pub fn decode_json(json: Vec<ValueData>) -> Result<String, serde_json::error::Error> {
     let decode_value = json.iter()
         .map(|row| {
             match row.clone() {

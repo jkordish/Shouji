@@ -48,7 +48,7 @@ pub fn export(server: &str, port: &str, key: &str, file: &str, verbose: bool) {
     // map json body to our backend Struct
     let json: Vec<ValueData> = serde_json::from_str(&body[..]).unwrap();
 
-    let output = decode_json(&json).unwrap();
+    let output = decode_json(json).unwrap();
 
     file.write_all(output.as_bytes()).unwrap()
 }
