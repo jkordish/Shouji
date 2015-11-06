@@ -42,6 +42,7 @@ fn main() {
                     .decode()
                     .unwrap_or_else(|e| e.exit());
 
+
     if args.cmd_get {
         // Error conditions
         if &args.arg_key == "" { panic!("Please supply a key to get."); }
@@ -100,6 +101,6 @@ fn main() {
             args.flag_verbose,
         );
     } else {
-        // println!("Not sure what to do: {:?}", args);
+        println!("Not sure what to do");
     }
 }

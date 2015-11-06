@@ -25,7 +25,7 @@ pub fn import(server: &str, port: &str, file: &str, verbose: bool) {
     let json: Vec<ValueDataOut> = serde_json::from_str(&data[..]).unwrap();
 
     // iterate over the struct so we can grab values
-    for item in json.iter() {
+    for item in &json {
         // build url from input values
         let url = format!("http://{}:{}/v1/kv/{}", server, port, &item.Key);
 

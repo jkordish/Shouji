@@ -7,7 +7,7 @@ rust interface for consul
 **note: built on rust nightly**
 
     $ rustc --version
-    $ rustc 1.5.0-nightly (6108e8c3e 2015-09-28)
+    $ rustc 1.6.0-nightly (1a2eaffb6 2015-10-31)
 
 Highly recommend using [multirust](https://github.com/brson/multirust) for installing and managing rust installations.
 

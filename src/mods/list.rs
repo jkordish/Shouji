@@ -45,5 +45,5 @@ pub fn list(server: &str, port: &str, key: &str, verbose: bool) {
     let json: Vec<ValueData> = serde_json::from_str(&body[..]).unwrap();
 
     // pass json to our decode_json function and print result
-    println!("{}", decode_json(&json).unwrap());
+    println!("{}", decode_json(json).unwrap());
 }
