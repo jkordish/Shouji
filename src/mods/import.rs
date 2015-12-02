@@ -13,7 +13,7 @@ pub fn import(server: &str, port: &str, file: &str, verbose: bool) {
     // panic if we can't
     let mut file = match File::open(file) {
         Ok(file) => file,
-        Err(..)  => panic!("unable to open file"),
+        Err(..) => panic!("unable to open file"),
     };
 
     // create data as a mutable string
@@ -36,9 +36,9 @@ pub fn import(server: &str, port: &str, file: &str, verbose: bool) {
 
         // make connection
         let resp = http::handle()
-            .put(url, &item.Value[..])
-            .exec()
-            .unwrap();
+                       .put(url, &item.Value[..])
+                       .exec()
+                       .unwrap();
 
         // expect a 200 code or error with return code
         if resp.get_code() != 200 {
@@ -48,7 +48,9 @@ pub fn import(server: &str, port: &str, file: &str, verbose: bool) {
         // verbose: print out the response code, headers, and body
         if verbose {
             println!("code={}; headers={:?}; body={}",
-                resp.get_code(), resp.get_headers(), from_utf8(resp.get_body()).unwrap());
+                     resp.get_code(),
+                     resp.get_headers(),
+                     from_utf8(resp.get_body()).unwrap());
         }
-    };
+    }
 }

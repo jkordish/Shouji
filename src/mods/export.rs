@@ -13,12 +13,11 @@ pub fn export(server: &str, port: &str, key: &str, file: &str, verbose: bool) {
 
     // build url from input values
     // format the url depending on if a key is set
-    let url: String =
-        if key == "" {
-            format!("http://{}:{}/v1/kv/?recurse", server, port)
-        } else {
-            format!("http://{}:{}/v1/kv/{}/?recurse", server, port, key)
-        };
+    let url: String = if key == "" {
+        format!("http://{}:{}/v1/kv/?recurse", server, port)
+    } else {
+        format!("http://{}:{}/v1/kv/{}/?recurse", server, port, key)
+    };
 
     // verbose: print out the connection url string
     if verbose {
@@ -27,9 +26,9 @@ pub fn export(server: &str, port: &str, key: &str, file: &str, verbose: bool) {
 
     // make connection
     let resp = http::handle()
-        .get(url)
-        .exec()
-        .unwrap();
+                   .get(url)
+                   .exec()
+                   .unwrap();
 
     // expect a 200 code or error with return code
     if resp.get_code() != 200 {
@@ -39,7 +38,9 @@ pub fn export(server: &str, port: &str, key: &str, file: &str, verbose: bool) {
     // verbose: print out the response code, headers, and body
     if verbose {
         println!("code={}; headers={:?}; body={}",
-            resp.get_code(), resp.get_headers(), from_utf8(resp.get_body()).unwrap());
+                 resp.get_code(),
+                 resp.get_headers(),
+                 from_utf8(resp.get_body()).unwrap());
     }
 
     // make body from the response body from the server

@@ -1,12 +1,12 @@
 extern crate curl;
 extern crate rustc_serialize;
 
-use ::rustc_serialize::base64::FromBase64;
+use rustc_serialize::base64::FromBase64;
 use std::str::from_utf8;
 use self::curl::http;
 use mods::ValueData;
 
-pub fn get(server: &str, port: &str, key: &str, verbose: bool ) {
+pub fn get(server: &str, port: &str, key: &str, verbose: bool) {
 
     // build url from input values
     let url = format!("http://{}:{}/v1/kv/{}", server, port, key);
@@ -18,9 +18,9 @@ pub fn get(server: &str, port: &str, key: &str, verbose: bool ) {
 
     // make connection
     let resp = http::handle()
-        .get(url)
-        .exec()
-        .unwrap();
+                   .get(url)
+                   .exec()
+                   .unwrap();
 
     // expect a 200 code or error with return code
     if resp.get_code() != 200 {
@@ -31,7 +31,9 @@ pub fn get(server: &str, port: &str, key: &str, verbose: bool ) {
     // verbose: print out the response code, headers, and body
     if verbose {
         println!("code={}; headers={:?}; body={}",
-            resp.get_code(), resp.get_headers(), from_utf8(resp.get_body()).unwrap());
+                 resp.get_code(),
+                 resp.get_headers(),
+                 from_utf8(resp.get_body()).unwrap());
     }
 
     // create a vector containg the body
@@ -49,6 +51,6 @@ pub fn get(server: &str, port: &str, key: &str, verbose: bool ) {
         let value = deserialized[0].Value[..].to_owned().from_base64().unwrap();
         // Print the string of value
         println!("{}", String::from_utf8(value).unwrap())
-    };
+    }
 
 }
