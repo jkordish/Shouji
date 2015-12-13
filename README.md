@@ -22,17 +22,21 @@ Supports:
 
 ### Install
 
-**source:**
+**cargo:**
 
-    $ git clone https://github.com/jkordish/shouji.git
-    $ cd Shouji
-    $ cargo build --release
-    $ cp target/release/shouji /usr/local/bin/
-    $ ./target/release/shouji get key/blah
+    $ cargo install --git https://github.com/jkordish/Shouji
 
 **binary:**
 
     $ wget -O /usr/local/bin/shouji  https://github.com/jkordish/shouji/releases/download/v0.0.2/shouji-osx
+
+**source:**
+
+    $ git clone https://github.com/jkordish/shouji.git
+    $ cd shouji
+    $ cargo build --release
+    $ cp target/release/shouji /usr/local/bin/
+    $ ./target/release/shouji get key/blah
 
 #### Using
 

@@ -3,7 +3,7 @@ extern crate rustc_serialize;
 
 use self::curl::http;
 
-pub fn rm(server: &str, port: &str, key: &str, verbose: bool ) {
+pub fn rm(server: &str, port: &str, key: &str, verbose: bool) {
 
     // build url from input values
     let url = format!("http://{}:{}/v1/kv/{}", server, port, key);
@@ -15,9 +15,9 @@ pub fn rm(server: &str, port: &str, key: &str, verbose: bool ) {
 
     // make connection
     let resp = http::handle()
-        .delete(url)
-        .exec()
-        .unwrap();
+                   .delete(url)
+                   .exec()
+                   .unwrap();
 
     // expect a 200 code or error with return code
     if resp.get_code() != 200 {
