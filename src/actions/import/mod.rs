@@ -5,7 +5,7 @@ use self::curl::http;
 use std::str::from_utf8;
 use std::io::prelude::*;
 use std::fs::File;
-use mods::*;
+use actions::*;
 
 pub fn import(server: &str, port: &str, file: &str, verbose: bool) {
 

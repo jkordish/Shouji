@@ -6,7 +6,7 @@ extern crate rustc_serialize;
 extern crate docopt;
 
 use docopt::Docopt;
-mod mods;
+mod actions;
 
 docopt!(Args derive, "
 shouji -- interface with consul
@@ -48,10 +48,10 @@ fn main() {
         if &args.arg_key == "" {
             panic!("Please supply a key to get.");
         }
-        mods::get::get(&args.flag_server,
-                       &args.flag_port,
-                       &args.arg_key,
-                       args.flag_verbose);
+        actions::get::get(&args.flag_server,
+                          &args.flag_port,
+                          &args.arg_key,
+                          args.flag_verbose);
     } else if args.cmd_put {
         // Error conditions
         if &args.arg_key == "" {
@@ -60,46 +60,46 @@ fn main() {
         if &args.arg_data == "" {
             panic!("Please supply data to put.");
         }
-        mods::put::put(&args.flag_server,
-                       &args.flag_port,
-                       &args.arg_key,
-                       &args.arg_data,
-                       args.flag_verbose);
+        actions::put::put(&args.flag_server,
+                          &args.flag_port,
+                          &args.arg_key,
+                          &args.arg_data,
+                          args.flag_verbose);
     } else if args.cmd_rm {
         // Error conditions
         if &args.arg_key == "" {
             panic!("Please supply a key to rm.");
         }
-        mods::rm::rm(&args.flag_server,
-                     &args.flag_port,
-                     &args.arg_key,
-                     args.flag_verbose);
+        actions::remove::rm(&args.flag_server,
+                            &args.flag_port,
+                            &args.arg_key,
+                            args.flag_verbose);
     } else if args.cmd_list {
         // Error conditions
         // if args.arg_key == None { let Some = String::new(); };
-        mods::list::list(&args.flag_server,
-                         &args.flag_port,
-                         &args.arg_key,
-                         args.flag_verbose);
+        actions::list::list(&args.flag_server,
+                            &args.flag_port,
+                            &args.arg_key,
+                            args.flag_verbose);
     } else if args.cmd_export {
         // Error conditions
         if &args.arg_file == "" {
             panic!("Please supply a file to export to.");
         }
-        mods::export::export(&args.flag_server,
-                             &args.flag_port,
-                             &args.arg_key,
-                             &args.arg_file,
-                             args.flag_verbose);
+        actions::export::export(&args.flag_server,
+                                &args.flag_port,
+                                &args.arg_key,
+                                &args.arg_file,
+                                args.flag_verbose);
     } else if args.cmd_import {
         // Error conditions
         if &args.arg_file == "" {
             panic!("Please supply a file to import.");
         }
-        mods::import::import(&args.flag_server,
-                             &args.flag_port,
-                             &args.arg_file,
-                             args.flag_verbose);
+        actions::import::import(&args.flag_server,
+                                &args.flag_port,
+                                &args.arg_file,
+                                args.flag_verbose);
     } else {
         println!("Not sure what to do");
     }

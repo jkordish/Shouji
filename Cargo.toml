@@ -1,6 +1,6 @@
 [package]
 name = "shouji"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Joseph Kordish <joe@unicornclouds.com>"]
 
 [dependencies]

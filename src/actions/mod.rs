@@ -1,6 +1,6 @@
 pub mod get;
 pub mod put;
-pub mod rm;
+pub mod remove;
 pub mod list;
 pub mod export;
 pub mod import;

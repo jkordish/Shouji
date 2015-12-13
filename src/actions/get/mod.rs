@@ -4,7 +4,7 @@ extern crate rustc_serialize;
 use rustc_serialize::base64::FromBase64;
 use std::str::from_utf8;
 use self::curl::http;
-use mods::ValueData;
+use actions::ValueData;
 
 pub fn get(server: &str, port: &str, key: &str, verbose: bool) {
 
