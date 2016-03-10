@@ -1,6 +1,6 @@
 # Shouji
 ---
-rust interface for consul
+cli interface built in [rust](http://rustlang.org/) to interact with [consul](http://consul.io). Functionality was based off of [consulate](https://github.com/gmr/consulate).
 
 #### disclaimer: this was a coding exercise to learn rust
 
@@ -28,7 +28,11 @@ Supports:
 
 **binary:**
 
-    $ wget -O /usr/local/bin/shouji  https://github.com/jkordish/shouji/releases/download/v0.0.2/shouji-osx
+OSX:
+    $ wget -O /usr/local/bin/shouji  https://github.com/jkordish/shouji/releases/download/v0.1.1/shouji-osx
+Linux:
+    $ wget  -O /usr/local/bin/shouji https://github.com/jkordish/shouji/releases/download/v0.1.1/shouji-linux
+
 
 **source:**
 
@@ -86,7 +90,5 @@ Sample uses:
     $ shouji rm random/person
 
 #### TODO
-  * Implement:
-    * ~~Export~~
-    * ~~Import~~
-    * Can't export off of the root tree :(
+    * Can't export off of the root tree
+    * Remove lib curl in favor of hyper

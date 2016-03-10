@@ -5,8 +5,8 @@ extern crate serde_json;
 extern crate rustc_serialize;
 extern crate docopt;
 
-use docopt::Docopt;
 mod actions;
+use self::actions::*;
 
 docopt!(Args derive, "
 shouji -- interface with consul
@@ -23,8 +23,8 @@ Usage:
 Options:
     -h, --help              show this screen
     -v, --verbose           be verbose
-    -s --server <host>      consul server to connect [default: localhost]
-    -p --port <port>        consul server port to connect [default: 8500]
+    -s, --server <host>     consul server to connect [default: localhost]
+    -p, --port <port>       consul server port to connect [default: 8500]
 
 Action:
     list    list recursively from location
@@ -48,10 +48,10 @@ fn main() {
         if &args.arg_key == "" {
             panic!("Please supply a key to get.");
         }
-        actions::get::get(&args.flag_server,
-                          &args.flag_port,
-                          &args.arg_key,
-                          args.flag_verbose);
+        get::new(&args.flag_server,
+                 &args.flag_port,
+                 &args.arg_key,
+                 args.flag_verbose);
     } else if args.cmd_put {
         // Error conditions
         if &args.arg_key == "" {
@@ -60,46 +60,46 @@ fn main() {
         if &args.arg_data == "" {
             panic!("Please supply data to put.");
         }
-        actions::put::put(&args.flag_server,
-                          &args.flag_port,
-                          &args.arg_key,
-                          &args.arg_data,
-                          args.flag_verbose);
+        put::new(&args.flag_server,
+                 &args.flag_port,
+                 &args.arg_key,
+                 &args.arg_data,
+                 args.flag_verbose);
     } else if args.cmd_rm {
         // Error conditions
         if &args.arg_key == "" {
             panic!("Please supply a key to rm.");
         }
-        actions::remove::rm(&args.flag_server,
-                            &args.flag_port,
-                            &args.arg_key,
-                            args.flag_verbose);
+        remove::new(&args.flag_server,
+                    &args.flag_port,
+                    &args.arg_key,
+                    args.flag_verbose);
     } else if args.cmd_list {
         // Error conditions
         // if args.arg_key == None { let Some = String::new(); };
-        actions::list::list(&args.flag_server,
-                            &args.flag_port,
-                            &args.arg_key,
-                            args.flag_verbose);
+        list::new(&args.flag_server,
+                  &args.flag_port,
+                  &args.arg_key,
+                  args.flag_verbose);
     } else if args.cmd_export {
         // Error conditions
         if &args.arg_file == "" {
             panic!("Please supply a file to export to.");
         }
-        actions::export::export(&args.flag_server,
-                                &args.flag_port,
-                                &args.arg_key,
-                                &args.arg_file,
-                                args.flag_verbose);
+        export::new(&args.flag_server,
+                    &args.flag_port,
+                    &args.arg_key,
+                    &args.arg_file,
+                    args.flag_verbose);
     } else if args.cmd_import {
         // Error conditions
         if &args.arg_file == "" {
             panic!("Please supply a file to import.");
         }
-        actions::import::import(&args.flag_server,
-                                &args.flag_port,
-                                &args.arg_file,
-                                args.flag_verbose);
+        import::new(&args.flag_server,
+                    &args.flag_port,
+                    &args.arg_file,
+                    args.flag_verbose);
     } else {
         println!("Not sure what to do");
     }

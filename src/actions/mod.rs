@@ -51,10 +51,10 @@ pub fn decode_json(json: Vec<ValueData>) -> Result<String, serde_json::error::Er
                            .map(|row| {
                                match row.clone() {
                                    ValueData {
-                    Key: key,
-                    Flags: flags,
-                    Value: value,
-                    ..
+                                        Key: key,
+                                        Flags: flags,
+                                        Value: value,
+                                        ..
                 } => {
                                        ValueDataOut {
                                            Key: key,

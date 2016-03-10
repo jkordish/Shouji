@@ -1,6 +1,6 @@
 [package]
 name = "shouji"
-version = "0.2.1"
+version = "0.2.2"
 authors = ["Joseph Kordish <joe@unicornclouds.com>"]
 
 [dependencies]
@@ -11,3 +11,4 @@ curl = "*"
 serde = "*"
 serde_json = "*"
 serde_macros = "*"
+clippy = "*"

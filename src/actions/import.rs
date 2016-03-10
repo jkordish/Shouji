@@ -7,7 +7,7 @@ use std::io::prelude::*;
 use std::fs::File;
 use actions::*;
 
-pub fn import(server: &str, port: &str, file: &str, verbose: bool) {
+pub fn new(server: &str, port: &str, file: &str, verbose: bool) {
 
     // determine if we can open the file for reading
     // panic if we can't
@@ -22,7 +22,10 @@ pub fn import(server: &str, port: &str, file: &str, verbose: bool) {
     &file.read_to_string(&mut data).unwrap();
 
     // convert the data to our struct so we can match things up
-    let json: Vec<ValueDataOut> = serde_json::from_str(&data[..]).unwrap();
+    let json: Vec<ValueData> = match serde_json::from_str(&data[..]) {
+        Ok(json) => json,
+        Err(err) => panic!("{}", err),
+    };
 
     // iterate over the struct so we can grab values
     for item in &json {
@@ -35,10 +38,10 @@ pub fn import(server: &str, port: &str, file: &str, verbose: bool) {
         }
 
         // make connection
-        let resp = http::handle()
-                       .put(url, &item.Value[..])
-                       .exec()
-                       .unwrap();
+        let resp = match http::handle().put(url, &item.Value[..]).exec() {
+            Ok(resp) => resp,
+            Err(err) => panic!("error importing. {}", err),
+        };
 
         // expect a 200 code or error with return code
         if resp.get_code() != 200 {

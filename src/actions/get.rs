@@ -6,7 +6,7 @@ use std::str::from_utf8;
 use self::curl::http;
 use actions::ValueData;
 
-pub fn get(server: &str, port: &str, key: &str, verbose: bool) {
+pub fn new(server: &str, port: &str, key: &str, verbose: bool) {
 
     // build url from input values
     let url = format!("http://{}:{}/v1/kv/{}", server, port, key);
@@ -17,10 +17,10 @@ pub fn get(server: &str, port: &str, key: &str, verbose: bool) {
     }
 
     // make connection
-    let resp = http::handle()
-                   .get(url)
-                   .exec()
-                   .unwrap();
+    let resp = match http::handle().get(url).exec() {
+        Ok(resp) => resp,
+        Err(err) => panic!("error executing. {}", err),
+    };
 
     // expect a 200 code or error with return code
     if resp.get_code() != 200 {
@@ -43,14 +43,27 @@ pub fn get(server: &str, port: &str, key: &str, verbose: bool) {
     for row in body {
         // if verbose: print out the data from the json vec
         if verbose {
-            println!("json: {}", from_utf8(row).unwrap());
+            match from_utf8(row) {
+                Ok(row) => println!("JSON body. {}", row),
+                Err(err) => panic!("unable to convert body. {}", err),
+            }
         }
         // decode json to the ValueData struct
-        let deserialized: Vec<ValueData> = ::serde_json::from_slice(row).unwrap();
-        // convert ValueData.Value from base64 utf8
-        let value = deserialized[0].Value[..].to_owned().from_base64().unwrap();
-        // Print the string of value
-        println!("{}", String::from_utf8(value).unwrap())
-    }
+        let deserialized: Vec<ValueData> = match ::serde_json::from_slice(row) {
+            Ok(deserialized) => deserialized,
+            Err(err) => panic!("{}", err),
+        };
 
+        // convert ValueData.Value from base64 utf8
+        let value = match deserialized[0].Value[..].to_owned().from_base64() {
+            Ok(x) => x,
+            Err(err) => panic!("{}", err),
+        };
+
+        // Print the string of value
+        match String::from_utf8(value) {
+            Ok(x) => println!("{}", x),
+            Err(err) => panic!("{}", err),
+        };
+    }
 }

@@ -7,7 +7,7 @@ use std::io::prelude::*;
 use std::fs::File;
 use actions::*;
 
-pub fn export(server: &str, port: &str, key: &str, file: &str, verbose: bool) {
+pub fn new(server: &str, port: &str, key: &str, file: &str, verbose: bool) {
 
     let mut file = File::create(file).unwrap();
 
@@ -25,10 +25,11 @@ pub fn export(server: &str, port: &str, key: &str, file: &str, verbose: bool) {
     }
 
     // make connection
-    let resp = http::handle()
-                   .get(url)
-                   .exec()
-                   .unwrap();
+    let resp = match http::handle().get(url).exec() {
+        Ok(resp) => resp,
+        Err(err) => panic!("error executing. {}", err),
+    };
+
 
     // expect a 200 code or error with return code
     if resp.get_code() != 200 {
@@ -44,12 +45,21 @@ pub fn export(server: &str, port: &str, key: &str, file: &str, verbose: bool) {
     }
 
     // make body from the response body from the server
-    let body = from_utf8(resp.get_body()).unwrap();
+    let body = match from_utf8(resp.get_body()) {
+        Ok(body) => body,
+        Err(err) => panic!("{}", err),
+    };
 
     // map json body to our backend Struct
-    let json: Vec<ValueData> = serde_json::from_str(&body[..]).unwrap();
+    let json: Vec<ValueData> = match serde_json::from_str(&body[..]) {
+        Ok(json) => json,
+        Err(err) => panic!("{}", err),
+    };
 
-    let output = decode_json(json).unwrap();
+    let output = match decode_json(json) {
+        Ok(output) => output,
+        Err(err) => panic!("{}", err),
+    };
 
     file.write_all(output.as_bytes()).unwrap()
 }
