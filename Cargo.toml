@@ -11,4 +11,8 @@ curl = "*"
 serde = "*"
 serde_json = "*"
 serde_macros = "*"
-clippy = "*"
+#serde_codegen = "*"
+clippy = {version="*", optional = true}
+
+[features]
+default=[]

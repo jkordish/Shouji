@@ -1,3 +1,4 @@
+#![cfg_attr(feature="clippy", plugin(clippy))]
 #![feature(custom_derive, plugin, custom_attribute, type_macros)]
 #![plugin(serde_macros, docopt_macros)]
 extern crate serde;

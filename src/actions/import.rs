@@ -22,7 +22,7 @@ pub fn new(server: &str, port: &str, file: &str, verbose: bool) {
     &file.read_to_string(&mut data).unwrap();
 
     // convert the data to our struct so we can match things up
-    let json: Vec<ValueData> = match serde_json::from_str(&data[..]) {
+    let json: Vec<ValueDataOut> = match serde_json::from_str(&data[..]) {
         Ok(json) => json,
         Err(err) => panic!("{}", err),
     };
