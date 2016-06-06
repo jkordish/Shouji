@@ -19,7 +19,7 @@ pub fn new(server: &str, port: &str, file: &str, verbose: bool) {
     // create data as a mutable string
     let mut data = String::new();
     // read data from the file and put it in data
-    &file.read_to_string(&mut data).unwrap();
+    file.read_to_string(&mut data).unwrap();
 
     // convert the data to our struct so we can match things up
     let json: Vec<ValueDataOut> = match serde_json::from_str(&data[..]) {

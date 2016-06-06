@@ -13,7 +13,7 @@ use rustc_serialize::base64::FromBase64;
 // struct that mirrors the json values from consul
 // using snake case as #[serde(alias="")] wouldn't work for me
 #[allow(non_snake_case)]
-#[derive(RustcDecodable, Serialize, Deserialize, PartialEq, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ValueData {
     CreateIndex: i32,
     ModifyIndex: i32,
@@ -24,7 +24,7 @@ pub struct ValueData {
 }
 
 #[allow(non_snake_case)]
-#[derive(RustcDecodable, Serialize, Deserialize, PartialEq, Debug, Clone)]
+#[derive(Serialize, Deserialize)]
 pub struct ValueDataOut {
     Key: String,
     Flags: i32,
